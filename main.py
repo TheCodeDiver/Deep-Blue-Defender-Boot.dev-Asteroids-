@@ -2,13 +2,13 @@ import pygame
 import sys
 from constants import *
 from player import Player
-from asteroid import Asteroid
-from asteroidfield import *
+from oil import Oil
+from oilfield import *
 from shot import *
 
 def main():
     pygame.init()
-    print("Starting Asteroids!")
+    print("Starting Deep Blue Defender!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
 
@@ -21,15 +21,15 @@ def main():
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    asteroids = pygame.sprite.Group()
+    oil_blobs = pygame.sprite.Group()
     shots = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
     player = Player(x, y)
 
-    Asteroid.containers = (asteroids, updatable, drawable)
-    AsteroidField.containers = (updatable)
-    asteroidfield = AsteroidField()
+    Oil.containers = (oil_blobs, updatable, drawable)
+    OilField.containers = (updatable)
+    Oilfield = OilField()
 
     Shot.containers = (shots, updatable, drawable)
     
@@ -39,21 +39,21 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        screen.fill("black")
+        screen.fill(BACKGROUND_COLOR)
         updatable.update(dt)   
 
-        for asteroid in asteroids:
-            if player.collision(asteroid):
+        for oil in oil_blobs:
+            if player.collision(oil):
                 print("Game Over!")
                 sys.exit()
             for shot in shots:
-                if shot.collision(asteroid):
+                if shot.collision(oil):
                     shot.kill()
-                    new_asteroids = asteroid.split()
-                    if new_asteroids:
-                        asteroids.add(new_asteroids[0], new_asteroids[1])
-                        updatable.add(new_asteroids[0], new_asteroids[1])
-                        drawable.add(new_asteroids[0], new_asteroids[1])
+                    new_oil_blobs = oil.split()
+                    if new_oil_blobs:
+                        oil_blobs.add(new_oil_blobs[0], new_oil_blobs[1])
+                        updatable.add(new_oil_blobs[0], new_oil_blobs[1])
+                        drawable.add(new_oil_blobs[0], new_oil_blobs[1])
 
         for sprite in drawable:
             sprite.draw(screen)
