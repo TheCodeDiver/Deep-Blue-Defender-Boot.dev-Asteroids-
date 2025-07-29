@@ -23,9 +23,7 @@ class Player(CircleShape):
         return [a, b, c]
     
     def rotate(self, dt):
-        print(f"Rotating by {PLAYER_TURN_SPEED * dt}")  # This will display how much rotation is added each time
         self.rotation += PLAYER_TURN_SPEED * dt
-        print(f"New rotation: {self.rotation}")
 
     def update(self, dt):
         if self.timer > 0:
@@ -35,16 +33,16 @@ class Player(CircleShape):
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            print("A key pressed!")
+           #A key pressed
             self.rotate(-dt)
         if keys[pygame.K_d]:
-            print("D key pressed!")
+            #D key pressed
             self.rotate(dt)
         if keys[pygame.K_s]:
-            print("S key pressed!")
+            #S key pressed
             self.move(-dt)
         if keys[pygame.K_w]:
-            print("W key pressed!")
+            #W key pressed
             self.move(dt)
         if keys[pygame.K_SPACE] and self.timer <= 0:
                 self.shoot()

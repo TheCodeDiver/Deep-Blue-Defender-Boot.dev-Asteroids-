@@ -9,7 +9,7 @@ class Oil(CircleShape):
         super().__init__(x, y, radius)
         
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255), self.position, self.radius, 2)
+        pygame.draw.circle(screen, (40, 40, 40), self.position, self.radius, 2)
 
     def update(self, dt):
         self.position += self.velocity * dt
@@ -28,3 +28,7 @@ class Oil(CircleShape):
             oil1.velocity = vel1
             oil2.velocity = vel2
             return oil1, oil2
+        
+    
+    def bubble_pop(x, y):
+        print(f"Bubble Pop at ({x}, {y})")
