@@ -12,27 +12,35 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
 
+    # Set up the window and clock
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0
-    x = SCREEN_WIDTH / 2
-    y = SCREEN_HEIGHT / 2
-    
 
+    # Sprite groups – like toy bins for organizing who updates and draws
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     oil_blobs = pygame.sprite.Group()
     shots = pygame.sprite.Group()
 
+    # Place the player in the middle of the screen
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
     Player.containers = (updatable, drawable)
     player = Player(x, y)
 
+    # Oil blobs and the oilfield
     Oil.containers = (oil_blobs, updatable, drawable)
-    OilField.containers = (updatable)
+    OilField.containers = (updatable,)
     Oilfield = OilField()
 
+    # Set up shooting
     Shot.containers = (shots, updatable, drawable)
-    
+
+    # Set up oil spawn timing
+    spawn_timer = 0
+    spawn_interval = 3  # seconds
+
 
     
     while True:
