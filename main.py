@@ -41,6 +41,9 @@ def main():
     spawn_timer = 0
     spawn_interval = 3  # seconds
 
+    camera_offset_y = 0
+    DESCENT_TRIGGER_Y = SCREEN_HEIGHT * 0.75 # Position to trigger scrolling
+
 
     
     while True:
@@ -48,7 +51,18 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill(BACKGROUND_COLOR)
-        updatable.update(dt)   
+        updatable.update(dt)
+
+        # Scrolling depth
+        keys = pygame.key.get_pressed()
+        moving_down = keys[pygame.K_w]  # The player is pressing the "go forward" key
+
+        # Only scroll if the player is pushing forward AND they're past the descent trigger
+        if moving_down and player.position.y - camera_offset_y > DESCENT_TRIGGER_Y:
+            descent_speed = PLAYER_SPEED * dt
+            camera_offset_y += descent_speed
+            player.position.y -= descent_speed  # Lock them from escaping upward
+
 
         for oil in oil_blobs:
             if player.collision(oil):
@@ -64,9 +78,14 @@ def main():
                         drawable.add(new_oil_blobs[0], new_oil_blobs[1])
 
         for sprite in drawable:
-            sprite.draw(screen)
+            sprite.draw(screen, camera_offset_y)
         pygame.display.flip()
         dt = clock.tick(60) / 1000
+
+        print(f"Player Y: {player.position.y:.2f}, Camera Offset Y: {camera_offset_y:.2f}")
+        print(f"Player X: {player.position.x:.2f}, Y: {player.position.y:.2f}, Camera Offset Y: {camera_offset_y:.2f}")
+
+
 
 
 

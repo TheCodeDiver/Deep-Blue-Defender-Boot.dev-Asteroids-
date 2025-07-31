@@ -12,12 +12,12 @@ class Oil(CircleShape):
         speed = random.uniform(30, 60) #lazy drift
         self.velocity = pygame.Vector2(0, speed).rotate(angle)
         
-    def draw(self, screen):
+    def draw(self, screen, camera_offset_y=0):
+        offset_points = pygame.Vector2(self.position.x, self.position.y - camera_offset_y)
         # outer dark blob
-        pygame.draw.circle(screen, (30, 30, 30), self.position, self.radius)
-
+        pygame.draw.circle(screen, (30, 30, 30), offset_points, self.radius, 2)
         # inner rim
-        pygame.draw.circle(screen, (10, 10, 10), self.position, self.radius - 3, 1)
+        pygame.draw.circle(screen, (10, 10, 10), offset_points, max(self.radius - 3, 1), 1)
 
     def update(self, dt):
         self.position += self.velocity * dt

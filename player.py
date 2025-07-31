@@ -9,9 +9,11 @@ class Player(CircleShape):
         
         self.rotation = 0
         self.timer = 0
+        self.depth = self.position.y
     
-    def draw(self, screen):
-        pygame.draw.polygon(screen, (255, 255, 255), self.triangle(), 2)
+    def draw(self, screen, camera_offset_y=0):
+        offset_points = [pygame.Vector2(self.position.x, self.position.y - camera_offset_y) for self.position in self.triangle()]
+        pygame.draw.polygon(screen, (255, 255, 255), offset_points, 2)
 
         # in the player class
     def triangle(self):
@@ -55,4 +57,3 @@ class Player(CircleShape):
         shot = Shot(self.position.x, self.position.y, SHOT_RADIUS)
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
         self.timer = PLAYER_SHOOT_COOLDOWN
-
