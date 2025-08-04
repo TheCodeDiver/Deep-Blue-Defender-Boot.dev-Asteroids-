@@ -50,8 +50,28 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        screen.fill(BACKGROUND_COLOR)
-        updatable.update(dt)
+
+        depth = camera_offset_y
+        max_depth = 5000
+
+        #calculate darkness per depth
+        darkness = min(depth / max_depth, 1.0)
+        bg_color = (
+            int(0 * (1 - darkness) + 0 * darkness), #red
+            int(105 * (1 - darkness) + 0 * darkness),
+            int(148 * (1 - darkness) + 30 * darkness),
+        )
+        screen.fill(bg_color)
+
+        font = pygame.font.SysFont(None, 36)
+        depth_text = font.render(f"Depth: {int(depth)}", True, (255, 255, 255))
+        screen.blit(depth_text, (10, 10))
+
+
+        player.update(dt, camera_offset_y)
+        for sprite in updatable:
+            if sprite != player:
+                sprite.update(dt)
 
         # Scrolling depth
         keys = pygame.key.get_pressed()
