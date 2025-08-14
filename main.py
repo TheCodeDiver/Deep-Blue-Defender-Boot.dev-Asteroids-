@@ -58,8 +58,8 @@ def main():
         darkness = min(depth / max_depth, 1.0)
         bg_color = (
             int(0 * (1 - darkness) + 0 * darkness), #red
-            int(105 * (1 - darkness) + 0 * darkness),
-            int(148 * (1 - darkness) + 30 * darkness),
+            int(105 * (1 - darkness) + 0 * darkness), #green
+            int(148 * (1 - darkness) + 30 * darkness), #blue
         )
         screen.fill(bg_color)
 
